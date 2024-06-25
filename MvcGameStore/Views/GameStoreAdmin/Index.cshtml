@@ -1,0 +1,61 @@
+﻿@using System.Globalization
+@model IEnumerable<Data.GameModel>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1>Game List</h1>
+
+<p>
+    <input type="button" class="btn btn-primary" value="Create new game" onclick="location.href='@Url.Action("Create", "GameStoreAdmin")'" />
+    <input type="button" class="btn btn-secondary" value="Create new genre" onclick="location.href='@Url.Action("CreateGenre", "GameStoreAdmin")'" />
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre.GenreName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre.AdultOnly)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                    @(item.Price.ToString("C0", CultureInfo.GetCultureInfo("id-ID")))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre.GenreName)
+            </td>
+            <td>
+                @(item.Genre.AdultOnly ? "Yes" : "No")
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
